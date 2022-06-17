@@ -1,0 +1,38 @@
+<%- include('../partials/html-head') %>
+<%- include('../partials/nav') %>
+
+<main>
+  <h1><%= title %></h1>
+  <form id="new-form" action="/flights/<%= flight._id %>?_method=PUT" method="POST">
+
+    <label for="airline-select">Airline</label>
+    <select name="airline" id="airline-select" >
+      <option value="<%= flight.airline %>"><%= flight.airline %></option>
+      <option value="American">American</option>
+      <option value="Southwest">Southwest</option>
+      <option value="United">United</option>
+      <option value="Delta">Delta</option>
+      <option value="JetBlue">JetBlue</option>
+    </select>
+    
+    <label for="airport-select">Airport</label>
+    <select name="airport" id="airport-select" >
+      <option value="<%= flight.airport %>"><%= flight.airport %></option>
+      <option value="DEN">DEN</option>
+      <option value="AUS">AUS</option>
+      <option value="DFW">DFW</option>
+      <option value="LAX">LAX</option>
+      <option value="SAN">SAN</option>
+    </select>
+
+    <label for="flightNo">Flight Number</label>
+    <input type="number" name="flightNo" id="flight-number-input" value="<%= flight.flightNo %>" min="10" max="9999">
+
+    <label for="departs">Departure Time</label>
+    <input type="date" name="departs" id="depart-input" value="<%= flight.departs.toISOString().slice(0, 10) %>">
+
+    <button type="submit">Save Flight</button>
+  </form>
+</main>
+
+<%- include("../partials/footer") %>

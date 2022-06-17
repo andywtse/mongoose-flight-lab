@@ -69,7 +69,7 @@ function create(req, res) {
 function update(req, res) {
 
   for (let key in req.body) {
-    if(req.body[key] === "") delete req.body[key]
+    if (req.body[key] === "") delete req.body[key]
   }
 
   Flight.findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -84,13 +84,13 @@ function update(req, res) {
 
 function deleteFlight(req, res) {
   Flight.findByIdAndDelete(req.params.id)
-  .then(flight => {
-    res.redirect('/');
-  })
-  .catch(error => {
-    console.log(error);
-    res.redirect('/')
-  });
+    .then(flight => {
+      res.redirect('/flights');
+    })
+    .catch(error => {
+      console.log(error);
+      res.redirect('/')
+    });
 }
 
 export {

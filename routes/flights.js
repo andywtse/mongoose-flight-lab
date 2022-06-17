@@ -13,7 +13,7 @@ router.get('/new', flightController.new);
 router.get('/:id', flightController.show);
 
 // GET -- localhost:3000/flights/:id/edit
-router.put('/:id/edit', flightController.edit);
+router.get('/:id/edit', flightController.edit);
 
 // POST -- localhost:3000/flights/
 router.post('/', flightController.create);
@@ -22,7 +22,7 @@ router.post('/', flightController.create);
 router.put('/:id', flightController.update);
 
 // DELETE -- localhost:3000/flights/
-router.delete('/', flightController.delete)
+router.delete('/:id', flightController.delete);
 
 export {
   router
