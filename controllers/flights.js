@@ -1,10 +1,12 @@
 import { Flight } from '../models/model.js'
 
 function index(req, res) {
-  Flight.find({})
+  Flight.find({}).sort('departs')
     .then(flights => {
       res.render('flights/index', {
         title: 'All Flights',
+        lateFlight: 'late-flight',
+        currentDate: new Date(Date.now()),
         flights
       });
     })
@@ -15,8 +17,15 @@ function index(req, res) {
 }
 
 function newFlight(req, res) {
+
+  const newFlight = new Flight();
+
+  const dateTime = newFlight.departs;
+  const departsDate = dateTime.toISOString().slice(0,10);
+
   res.render('flights/new', {
-    title: "Add Flight"
+    title: "Add Flight",
+    departsDate
   });
 }
 
@@ -58,7 +67,7 @@ function create(req, res) {
 
   Flight.create(req.body)
     .then(flight => {
-      res.redirect(`/flights/${flight._id}`)
+      res.redirect(`/flights`)
     })
     .catch(error => {
       console.log(error);

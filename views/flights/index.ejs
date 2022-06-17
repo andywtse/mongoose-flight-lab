@@ -1,4 +1,5 @@
 <%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/flights/index.css">
 <%- include('../partials/nav') %>
 
   <main>
@@ -17,12 +18,12 @@
       <tbody>
   
         <% flights.forEach(flight => { %>
-          <tr>
+          <tr class="row-flight <%= (flight.departs < currentDate) ? lateFlight : '' %>">
             <td><%= flight.airline %></td>
             <td><%= flight.airport %></td>
             <td><a href="/flights/<%= flight._id %>"">Detail</a></td>
             <td><%= flight.flightNo %></td>
-            <td><%= flight.departs.toISOString().slice(0, 10) %></td>
+            <td><%= flight.departs.toISOString().slice(0, 16) %></td>
             <td>
               <form action="/flights/<%= flight._id %>?_method=DELETE" method="POST">
                 <button>X</button>

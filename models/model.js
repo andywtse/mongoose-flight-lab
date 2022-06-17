@@ -19,7 +19,7 @@ const flightSchema = new Schema({
   },
   departs: {
     type: Date,
-    default: new Date(Date.now() + 365*24*60*60*1000).toISOString().slice(0, 10)
+    default: new Date(Date.now() + 365*24*60*60*1000).toISOString().slice(0, 16)
   }
 }, {
   timestamps: true
