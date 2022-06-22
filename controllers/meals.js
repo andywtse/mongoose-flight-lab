@@ -16,6 +16,12 @@ function create(req, res) {
   .then(meal => {
     res.redirect('/meals/new')
   })
+  .catch(error => {
+    if( error && error.code === 11000) {
+      console.log("Duplicate Key attempted to be added")
+    }
+    res.redirect('/meals/new');
+  });
 }
 
 export {
