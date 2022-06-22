@@ -33,6 +33,9 @@ router.delete('/:id', flightController.delete);
 // DELETE -- localhost:3000/flights/:id/tickets
 router.delete('/:id/tickets/:ticketId', flightController.deleteTicket);
 
+// DELETE -- localhost:3000/flights/
+router.delete('/:id/meals/:mealId', flightController.deleteMeal);
+
 export {
   router
 }

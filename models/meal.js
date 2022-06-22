@@ -4,10 +4,8 @@ const Schema = mongoose.Schema;
 
 
 const mealSchema = new Schema({
-  name: String,
-  unique: true
-}, {
-  timestamps: true
+  name: {type: String,unique: true,required: true},
+}, {timestamps: true
 });
 
 const Meal = mongoose.model('Meal', mealSchema);
