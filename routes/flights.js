@@ -18,11 +18,17 @@ router.get('/:id/edit', flightController.edit);
 // POST -- localhost:3000/flights/
 router.post('/', flightController.create);
 
+// GET -- localhost:3000/flights/:id/tickets
+router.post('/:id/tickets', flightController.createTicket);
+
 // PUT -- localhost:3000/flights/:id
 router.put('/:id', flightController.update);
 
 // DELETE -- localhost:3000/flights/
 router.delete('/:id', flightController.delete);
+
+// DELETE -- localhost:3000/flights/:id/tickets
+router.delete('/:id/tickets/:ticketId', flightController.deleteTicket);
 
 export {
   router

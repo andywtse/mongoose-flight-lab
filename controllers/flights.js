@@ -75,6 +75,21 @@ function create(req, res) {
     });
 }
 
+function createTicket(req, res) {
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.tickets.push(req.body);
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`);
+    });
+  })
+  .catch(error => {
+    console.log(error);
+    res.redirect('/');
+  });
+}
+
 function update(req, res) {
 
   for (let key in req.body) {
@@ -87,7 +102,7 @@ function update(req, res) {
     })
     .catch(error => {
       console.log(error);
-      res.redirect('/')
+      res.redirect('/');
     });
 }
 
@@ -98,8 +113,23 @@ function deleteFlight(req, res) {
     })
     .catch(error => {
       console.log(error);
-      res.redirect('/')
+      res.redirect('/');
     });
+}
+
+function deleteTicket(req, res) {
+  Flight.findById(req.params.id)
+  .then(flight => {
+    flight.tickets.remove({_id:req.params.ticketId});
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`);
+    });
+  })
+  .catch(error => {
+    console.log(error);
+    res.redirect('/');
+  });
 }
 
 export {
@@ -108,6 +138,8 @@ export {
   show,
   update,
   create,
+  createTicket,
   newFlight as new,
-  deleteFlight as delete
+  deleteFlight as delete,
+  deleteTicket
 }
