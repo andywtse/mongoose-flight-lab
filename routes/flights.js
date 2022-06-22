@@ -21,6 +21,9 @@ router.post('/', flightController.create);
 // GET -- localhost:3000/flights/:id/tickets
 router.post('/:id/tickets', flightController.createTicket);
 
+// POST localhost:3000/movies/:id/performers
+router.post('/:id/meals', flightController.addToMeals)
+
 // PUT -- localhost:3000/flights/:id
 router.put('/:id', flightController.update);
 

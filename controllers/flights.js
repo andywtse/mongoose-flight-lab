@@ -1,4 +1,5 @@
 import { Flight } from '../models/model.js'
+import { Meal } from '../models/meal.js'
 
 function index(req, res) {
   Flight.find({}).sort('departs')
@@ -21,7 +22,7 @@ function newFlight(req, res) {
   const newFlight = new Flight();
 
   const dateTime = newFlight.departs;
-  const departsDate = dateTime.toISOString().slice(0,10);
+  const departsDate = dateTime.toISOString().slice(0, 10);
 
   res.render('flights/new', {
     title: "Add Flight",
@@ -31,11 +32,17 @@ function newFlight(req, res) {
 
 function show(req, res) {
   Flight.findById(req.params.id)
+    .populate('meals')
     .then(flight => {
-      res.render('flights/show', {
-        title: 'Flight Detail',
-        flight
-      });
+      Meal.find({ _id: { $nin: flight.meals } })
+        .then(meals => {
+          res.render('flights/show', {
+            title: 'Flight Detail',
+            flight,
+            meals
+          });
+        })
+
     })
     .catch(error => {
       console.log(error);
@@ -77,17 +84,32 @@ function create(req, res) {
 
 function createTicket(req, res) {
   Flight.findById(req.params.id)
-  .then(flight => {
-    flight.tickets.push(req.body);
-    flight.save()
-    .then(() => {
-      res.redirect(`/flights/${flight._id}`);
+    .then(flight => {
+      flight.tickets.push(req.body);
+      flight.save()
+        .then(() => {
+          res.redirect(`/flights/${flight._id}`);
+        });
+    })
+    .catch(error => {
+      console.log(error);
+      res.redirect('/');
     });
-  })
-  .catch(error => {
-    console.log(error);
-    res.redirect('/');
-  });
+}
+
+function addToMeals(req, res) {
+  Flight.findById(req.params.id)
+    .then(flight => {
+      flight.meals.push(req.body.mealsId);
+      flight.save()
+        .then(() => {
+          res.redirect(`/flights/${flight._id}`);
+        })
+    })
+    .catch(error => {
+      console.log(error);
+      res.redirect('/');
+    });
 }
 
 function update(req, res) {
@@ -119,17 +141,17 @@ function deleteFlight(req, res) {
 
 function deleteTicket(req, res) {
   Flight.findById(req.params.id)
-  .then(flight => {
-    flight.tickets.remove({_id:req.params.ticketId});
-    flight.save()
-    .then(() => {
-      res.redirect(`/flights/${flight._id}`);
+    .then(flight => {
+      flight.tickets.remove({ _id: req.params.ticketId });
+      flight.save()
+        .then(() => {
+          res.redirect(`/flights/${flight._id}`);
+        });
+    })
+    .catch(error => {
+      console.log(error);
+      res.redirect('/');
     });
-  })
-  .catch(error => {
-    console.log(error);
-    res.redirect('/');
-  });
 }
 
 export {
@@ -141,5 +163,6 @@ export {
   createTicket,
   newFlight as new,
   deleteFlight as delete,
-  deleteTicket
+  deleteTicket,
+  addToMeals
 }
